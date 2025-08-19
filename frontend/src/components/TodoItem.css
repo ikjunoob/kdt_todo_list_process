@@ -6,9 +6,9 @@
     /* justify-content: space-between; */
 }
 
-.TodoItem.isCompleted {
+/* .TodoItem.isCompleted {
     background-color: #f1f1f1;
-}
+} */
 
 .TodoItem .content {
     flex: 1;
@@ -41,7 +41,7 @@
     background-color: rgb(255, 121, 112);
 }
 
-.TodoItem.isCompleted .content {
+/* .TodoItem.isCompleted .content {
     text-decoration: line-through;
     color: gray;
-}
+} */
