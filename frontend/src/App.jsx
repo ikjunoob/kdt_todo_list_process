@@ -64,6 +64,27 @@ function App() {
     }
   }
 
+  // 텍스트 수정
+  const onUpdateText = async (id, newText) => {
+    try {
+      const { data } = await axios.patch(`${API}/${id}/text`, { text: newText });
+      setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
+    } catch (error) {
+      console.log("수정 실패", error);
+    }
+  };
+
+  // 체크박스 토글
+  const onUpdateChecked = async (id, isCompleted) => {
+    try {
+      const { data } = await axios.patch(`${API}/${id}/check`, { isCompleted });
+      setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
+    } catch (error) {
+      console.log("체크 수정 실패", error);
+    }
+  };
+
+
 
   return (
     <div className='App'>
@@ -71,9 +92,9 @@ function App() {
       <TodoEditor onCreate={onCreate} />
       <TodoList
         todos={Array.isArray(todos) ? todos : []}
-        updatedChecked={onUpdatedChecked}
-        updatedText={updatedText}
         onDelete={onDelete}
+        onUpdateText={onUpdateText}
+        onUpdateChecked={onUpdateChecked}
       />
     </div>
   );
