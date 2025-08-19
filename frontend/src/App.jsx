@@ -93,8 +93,8 @@ function App() {
       <TodoList
         todos={Array.isArray(todos) ? todos : []}
         onDelete={onDelete}
-        onUpdateText={onUpdateText}
-        onUpdateChecked={onUpdateChecked}
+        // onUpdateText={onUpdateText}
+        // onUpdateChecked={onUpdateChecked}
       />
     </div>
   );
