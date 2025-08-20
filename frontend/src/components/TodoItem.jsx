@@ -1,12 +1,34 @@
 import React from 'react'
 import "./TodoItem.css"
+import { useState } from 'react'
 const TodoItem = ({ todo, onDelete, onUpdateText, onUpdateChecked }) => {
+
+    const [editing, setEditing] = useState(false)
+    const [text, setText] = useState(todo.text)
+    const isCompleted = !todo.isCompleted
+
+    const startEdit = () => {
+        setText(todo.text)
+        setEditing(true)
+    }
+    const cancelEdit = () => {
+        setText(todo.text)
+        setEditing(false)
+    }
+
+    const saveEdit = async() => {
+        const next = text.trim()
+        await onUpdateText(todo._id, next)
+    }
+
+    
+
     return (
-        <div className='TodoItem'>
+        <div className={`TodoItem ${!isCompleted ? 'isCompleted' : ''}`}>
             <input
                 type="checkbox"
                 checked={todo.isCompleted}
-                onChange={(e) => onUpdateChecked(todo._id, e.target.checked)}
+                onChange={(e) => onUpdateChecked(todo._id, !todo.isCompleted)}
             />
             <div className="content">{todo.text}</div>
             <div className="date">{new Date(todo.date).toLocaleDateString()}</div>

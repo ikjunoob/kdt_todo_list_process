@@ -46,6 +46,7 @@ function App() {
     }
   }
 
+
   const onDelete = async (id) => {
     try {
       if (!confirm('정말 삭제할까요?')) return
@@ -78,12 +79,21 @@ function App() {
   const onUpdateChecked = async (id, isCompleted) => {
     try {
       const { data } = await axios.patch(`${API}/${id}/check`, { isCompleted });
+
+      if (Array.isArray(data?.todos)) {
+        setTodos(data.todos)
+      } else {
+        const updated = data?.todo ?? data;
+        setTodos(
+          prev => prev.map(t => (t._id === updated._id ? updated : t))
+        )
+      }
+
       setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
     } catch (error) {
       console.log("체크 수정 실패", error);
     }
   };
-
 
 
   return (
@@ -93,8 +103,8 @@ function App() {
       <TodoList
         todos={Array.isArray(todos) ? todos : []}
         onDelete={onDelete}
-        // onUpdateText={onUpdateText}
-        // onUpdateChecked={onUpdateChecked}
+        onUpdateText={onUpdateText}
+        onUpdateChecked={onUpdateChecked}
       />
     </div>
   );
