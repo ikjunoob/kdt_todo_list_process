@@ -66,19 +66,17 @@ function App() {
   }
 
   // 텍스트 수정
-  const onUpdateText = async (id, newText) => {
-    try {
-      const { data } = await axios.patch(`${API}/${id}/text`, { text: newText });
-      setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
-    } catch (error) {
-      console.log("수정 실패", error);
-    }
-  };
+  const onUpdateText = async (id, next) => {
+    const value = next?.trim()
 
-  // 체크박스 토글
-  const onUpdateChecked = async (id, isCompleted) => {
+    if (!value) return
+
+
     try {
-      const { data } = await axios.patch(`${API}/${id}/check`, { isCompleted });
+
+      const { data } = await axios.patch(`${API}/${id}/text`, {
+        text: value
+      })
 
       if (Array.isArray(data?.todos)) {
         setTodos(data.todos)
@@ -88,12 +86,34 @@ function App() {
           prev => prev.map(t => (t._id === updated._id ? updated : t))
         )
       }
-
-      setTodos(prev => prev.map(t => (t._id === id ? data.todo : t)));
     } catch (error) {
-      console.log("체크 수정 실패", error);
+      console.error("체크 상태 업데이트 실패", error)
     }
-  };
+
+  }
+
+  // 체크박스 토글
+  const onUpdateChecked = async (id, next) => {
+
+    try {
+
+      const { data } = await axios.patch(`${API}/${id}/check`, {
+        isCompleted: next
+      })
+
+      if (Array.isArray(data?.todos)) {
+        setTodos(data.todos)
+      } else {
+        const updated = data?.todo ?? data;
+        setTodos(
+          prev => prev.map(t => (t._id === updated._id ? updated : t))
+        )
+      }
+    } catch (error) {
+      console.error("체크 상태 업데이트 실패", error)
+    }
+
+  }
 
 
   return (
