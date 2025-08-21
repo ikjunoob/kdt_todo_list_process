@@ -2,12 +2,14 @@ const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3000
 
+app.use(cookieParser()); // ★ 쿠키 파싱
 app.use(express.json())
 app.use(cors({
     origin: process.env.FRONT_ORIGIN, // 허용할 도메인
@@ -22,6 +24,7 @@ mongoose
 
 
 const todoRoutes = require('./routes/todoRoutes')
+
 app.use('/api/todos', todoRoutes)
 
 app.get('/', (req, res) => {

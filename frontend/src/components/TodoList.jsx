@@ -2,7 +2,7 @@ import React from 'react'
 import './TodoList.css'
 import TodoItem from './TodoItem'
 
-const TodoList = ({ todos, onDelete, onUpdateText, onUpdateChecked }) => {
+const TodoList = ({ todos, onDelete, onUpdateText, onUpdateChecked, onUpdateTodo }) => {
     return (
         <div className='TodoList'>
             <h4>Todo List 🌱</h4>
@@ -15,6 +15,7 @@ const TodoList = ({ todos, onDelete, onUpdateText, onUpdateChecked }) => {
                         onDelete={onDelete}
                         onUpdateText={onUpdateText}       /* ✅ props 내려줌 */
                         onUpdateChecked={onUpdateChecked} /* ✅ props 내려줌 */
+                        onUpdateTodo={onUpdateTodo}
                     />
                 ))}
             </div>
